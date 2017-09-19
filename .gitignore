@@ -1,0 +1,7 @@
+build/
+*.DS_STORE
+.env
+*.exe
+main
+config.json
+src/src
