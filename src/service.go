@@ -71,11 +71,11 @@ func IPLogMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFu
 }
 
 // AuthMiddleware verifies presence and validity of API key header
-/*
-	401 Unauthorized if invalid key or no key and JSON error returned
-	{"error": "Invalid sms.party API key"}
-*/
 func AuthMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	/*
+		401 Unauthorized if invalid key or no key and JSON error returned
+		{"error": "Invalid sms.party API key"}
+	*/
 	if r.RequestURI == "/" || strings.Contains(r.RequestURI, "/files") {
 		fmt.Println("homepage - no auth")
 		next(w, r)
