@@ -6,12 +6,12 @@
 FROM scratch
 
 # Define container version
-ARG version=0.1
+ARG version=0.2
 
 # Container Information
 LABEL version=${version}
 LABEL description="sms.party backend container"
-LABEL updated="9-19-17 @ 1:13 AM"
+LABEL updated="9-19-17 @ 4:38 PM"
 
 # Set version within container
 ENV VERSION=${version}
@@ -19,11 +19,14 @@ ENV VERSION=${version}
 # Copy root SSL certs for SSL operations
 COPY ./lib/ca-certificates.crt /etc/ssl/certs/
 
-# Copy statically linked binary
-COPY build/main /
-
 # Copy static HTML
 COPY ./src/web /web
+
+# Copy config.json
+COPY ./src/config.json /
+
+# Copy statically linked binary
+COPY build/main /
 
 # Run app
 CMD ["/main", "${version}"]
