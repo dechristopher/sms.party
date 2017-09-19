@@ -1,6 +1,8 @@
 package strings
 
 const (
+	// LogPrefix is exactly what it sounds like
+	LogPrefix = "[sms.p] "
 	// InfoStartup notifies of service startup
 	InfoStartup = "~ Init sms.party backend v"
 	// InfoDefaultPort notifies of default port usage

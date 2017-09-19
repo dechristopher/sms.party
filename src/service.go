@@ -17,16 +17,16 @@ func main() {
 	// Read configuration from config.json
 	u.Conf = u.ReadConfig()
 
-	fmt.Println("[sms.p] " + s.InfoStartup + u.Conf.Version)
+	fmt.Println(s.LogPrefix + s.InfoStartup + u.Conf.Version)
 
 	// Do port checks
 	if u.Conf.Port == "" {
 		//Bind to default port 80
-		fmt.Println("[sms.p] " + s.InfoDefaultPort)
+		fmt.Println(s.LogPrefix + s.InfoDefaultPort)
 		u.Conf.Port = "80"
 	}
 
-	fmt.Println("[sms.p] > Starting...")
+	fmt.Println(s.LogPrefix + "> Starting...")
 
 	// Instantiate new bone mux
 	mux := bone.New()
@@ -58,7 +58,7 @@ func main() {
 
 	n.UseHandler(mux)
 
-	fmt.Println("[sms.p] > Awaiting queries...")
+	fmt.Println(s.LogPrefix + "> Awaiting queries...")
 	n.Run(":" + u.Conf.Port)
 }
 
@@ -66,7 +66,7 @@ func main() {
 
 // IPLogMiddleware simply prefixes request IP to negroni logger output for every request
 func IPLogMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	fmt.Printf("[sms-p] Request from %v -> ", r.RemoteAddr)
+	fmt.Printf(s.LogPrefix+"Request from %v -> ", r.RemoteAddr)
 	next(w, r)
 }
 
