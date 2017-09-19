@@ -1,29 +1,28 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
+	"strings"
 
 	"github.com/go-zoo/bone"
 	"github.com/urfave/negroni"
 
+	d "github.com/dechristopher/sms.party/src/data"
 	s "github.com/dechristopher/sms.party/src/strings"
-
-	u "git.tetra.vodka/csms/csms-backend/src/util"
+	u "github.com/dechristopher/sms.party/src/util"
 )
 
 func main() {
 	// Read configuration from config.json
 	u.Conf = u.ReadConfig()
 
-	fmt.Println("~ Init sms.party backend v" + u.Conf.Version)
+	fmt.Println("[sms.p] " + s.InfoStartup + u.Conf.Version)
 
 	// Do port checks
 	if u.Conf.Port == "" {
 		//Bind to default port 80
-		fmt.Println(s.InfoDefaultPort)
+		fmt.Println("[sms.p] " + s.InfoDefaultPort)
 		u.Conf.Port = "80"
 	}
 
@@ -33,13 +32,13 @@ func main() {
 	mux := bone.New()
 
 	// API Endpoints
-	mux.Post(u.Conf.Prefix+"/batch", http.HandlerFunc(BatchHandler))
-	mux.Post(u.Conf.Prefix+"/cast", http.HandlerFunc(CastHandler))
+	// mux.Post(u.Conf.Prefix+"/batch", http.HandlerFunc(BatchHandler))
+	// mux.Post(u.Conf.Prefix+"/cast", http.HandlerFunc(CastHandler))
 	mux.Post(u.Conf.Prefix+"/send", http.HandlerFunc(SendHandler))
 
 	// Helper Endpoints
-	mux.Get(u.Conf.Prefix+"/key", http.HandlerFunc(CreditHandler))
-	mux.Post(u.Conf.Prefix+"/credit/promo", http.HandlerFunc(PromoHandler))
+	mux.Get(u.Conf.Prefix+"/key", http.HandlerFunc(SendHandler))
+	mux.Post(u.Conf.Prefix+"/key", http.HandlerFunc(SendHandler))
 
 	//Webserver Endpoints
 	mux.Get("/", http.HandlerFunc(IndexHandler))
@@ -53,32 +52,69 @@ func main() {
 		// Logger
 		negroni.NewLogger(),
 
-		// Static dirs. FUCK static dirs.
-		negroni.NewStatic(http.Dir("static")),
-		//negroni.NewStatic(http.Dir("images")),
+		// Serve static HTML on GET /
+		negroni.NewStatic(http.Dir("web")),
 	)
 
 	n.UseHandler(mux)
-	n.Run(":" + u.Conf.Port)
 
 	fmt.Println("[sms.p] > Awaiting queries...")
+	n.Run(":" + u.Conf.Port)
 }
 
-/*
-	Sends a single message to the target recipient
+/*--- START MIDDLEWARE ---*/
 
-	200 OK if spooled properly
-	Otherwise something went wrong
+// IPLogMiddleware simply prefixes request IP to negroni logger output for every request
+func IPLogMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	fmt.Printf("[sms-p] Request from %v -> ", r.RemoteAddr)
+	next(w, r)
+}
+
+// AuthMiddleware verifies presence and validity of API key header
+/*
+	401 Unauthorized if invalid key or no key and JSON error returned
+	{"error": "Invalid sms.party API key"}
 */
+func AuthMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	if r.RequestURI == "/" || strings.Contains(r.RequestURI, "/files") {
+		fmt.Println("homepage - no auth")
+		next(w, r)
+		return
+	}
+
+	key := d.APIKey(r.Header.Get("apikey"))
+	fmt.Printf("%v - checking auth - %v\n", r.RequestURI, key)
+
+	// Check API key validity
+	/*if _, existsErr := u.DBC.GetEmail(key); existsErr != nil {
+		u.SendResponse(w, true, 401, `{"error": "`+s.ErrBadAPIKey+`"}`)
+		return
+	}*/
+
+	next(w, r)
+}
+
+/*--- END MIDLEWARE*/
+
+/*--- START HANDLERS ---*/
+
+// IndexHandler serves homepage
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	u.Templates.ExecuteTemplate(w, "index.html", nil)
+}
+
 // SendHandler handles basic single SMS sending
 func SendHandler(w http.ResponseWriter, r *http.Request) {
+	/*
+		200 OK if spooled properly
+		Otherwise something went wrong
+	*/
 	key := d.APIKey(r.Header.Get("apikey"))
+	fmt.Println(key)
 
-	//Send message
-	message := u.Send{Number: sms.Target, Message: sms.Message, MessageID: msgID, Timestamp: int32(time.Now().Unix())}
-	payload, _ := json.Marshal(message)
-
-	u.Cli.SendMessage("csms/msg/"+dev.UUID, string(payload))
+	//Send message...
 
 	u.Okay(w)
 }
+
+/*--- END HANDLERS ---*/
