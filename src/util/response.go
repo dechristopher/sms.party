@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	s "git.tetra.vodka/csms/csms-backend/src/strings"
+	s "github.com/dechristopher/sms.party/src/strings"
 )
 
 // SendResponse sends back a request header and an error string with JSON support
@@ -28,12 +28,6 @@ func InternalServerError(w http.ResponseWriter) {
 // BadRequest sends a vanilla 400 Bad Request
 func BadRequest(w http.ResponseWriter) {
 	SendResponse(w, true, 400, `{"error": "`+s.ErrBadRequest+`"}`)
-	return
-}
-
-// BadPromoCode sends a vanilla 400 Bad Request
-func BadPromoCode(w http.ResponseWriter) {
-	SendResponse(w, true, 400, `{"error": "`+s.ErrBadPromoCode+`"}`)
 	return
 }
 
