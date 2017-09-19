@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+
+	s "github.com/dechristopher/sms.party/src/strings"
 )
 
 var (
@@ -27,13 +29,13 @@ type Configuration struct {
 func ReadConfig() Configuration {
 	raw, err := ioutil.ReadFile("./config.json")
 	if err != nil {
-		log.Fatal("Configuration Error! config.json improperly loaded or does not exist :: " + err.Error())
+		log.Fatal(s.LogPrefix + "Configuration Error! config.json improperly loaded or does not exist :: " + err.Error())
 		os.Exit(1)
 	}
 
 	var c Configuration
 	if errUnm := json.Unmarshal(raw, &c); errUnm != nil {
-		log.Fatal("Configuration Error! config.json improperly unmarshaled :: " + errUnm.Error())
+		log.Fatal(s.LogPrefix + "Configuration Error! config.json improperly unmarshaled :: " + errUnm.Error())
 		os.Exit(1)
 	}
 
