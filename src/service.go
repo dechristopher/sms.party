@@ -40,7 +40,7 @@ func main() {
 	mux.Get(u.Conf.Prefix+"/key", http.HandlerFunc(SendHandler))
 	mux.Post(u.Conf.Prefix+"/key", http.HandlerFunc(SendHandler))
 
-	//Webserver Endpoints
+	// Webserver Endpoints
 	mux.Get("/", http.HandlerFunc(IndexHandler))
 
 	// New Negroni Instance
@@ -112,7 +112,7 @@ func SendHandler(w http.ResponseWriter, r *http.Request) {
 	key := d.APIKey(r.Header.Get("apikey"))
 	fmt.Println(key)
 
-	//Send message...
+	// Send message...
 
 	u.Okay(w)
 }
