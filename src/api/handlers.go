@@ -10,11 +10,16 @@ import (
 	"github.com/sfreiberg/gotwilio"
 )
 
+// UnimplementedHandler just Okays everything because it's just there for the ride
+func UnimplementedHandler(w http.ResponseWriter, r *http.Request) {
+	u.Okay(w)
+}
+
 // HostHandler returns container hostname
 func HostHandler(w http.ResponseWriter, r *http.Request) {
 	var name string
 	if name, hnerr := os.Hostname(); hnerr != nil {
-		fmt.Printf("Hostname Oopsie: %v\n", hnerr)
+		fmt.Printf("Hostname Oopsie: %v %v\n", hnerr, name)
 		return
 	}
 	fmt.Fprintf(w, "%v", name)
