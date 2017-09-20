@@ -10,7 +10,7 @@ First check your system requirements with *tools/requires.sh*
 
 Build with *tools/docker-build.sh* and run with:
 ```
-*docker run -d --name sms-p -h sms-p -e PORT=<port> -p <port>:<port> sms-p*
+docker run -d --name sms-p -h sms-p -e PORT=<port> -p <port>:<port> sms-p
 ```
 
 **OR**
