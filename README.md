@@ -4,9 +4,14 @@
 - Containerized, scalable, and dead simple.
 - The people's SMS API - **free forever**.
 
-Build with *tools/docker-build.sh*, then run with:
+First check your system requirements with *tools/requires.sh*
 
+**THEN**
+
+Build with *tools/docker-build.sh* and run with:
+```
 *docker run -d --name sms-p -h sms-p -e PORT=<port> -p <port>:<port> sms-p*
+```
 
 **OR**
 
