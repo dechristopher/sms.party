@@ -1,5 +1,14 @@
 package api
 
+import (
+	"fmt"
+	"net/http"
+	"strings"
+
+	d "github.com/dechristopher/sms.party/src/data"
+	s "github.com/dechristopher/sms.party/src/strings"
+)
+
 // IPLogMiddleware simply prefixes request IP to negroni logger output for every request
 func IPLogMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	fmt.Printf(s.LogPrefix+"Request from %v -> ", r.RemoteAddr)
