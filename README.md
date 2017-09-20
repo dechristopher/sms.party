@@ -10,7 +10,7 @@ Build with *tools/docker-build.sh*, then run with:
 
 **OR**
 
-Run and build all at once with our lifecycle scripts *tools/sms-up.sh* and *tools/sms-down.sh*
+Build and run all at once with our lifecycle scripts *tools/sms-up.sh* and *tools/sms-down.sh*
 
 ***
 
