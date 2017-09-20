@@ -28,3 +28,25 @@ EXAMPLE: ./build/main-darwin 8080
 ```
 
 http://sms.party
+
+**TODO**
+
+- [X] Flesh out API
+- [X] Send handler
+- [X] Auth & IP middlewares
+- [X] Data Models
+- [X] Helper functions
+- [X] Error & Info strings
+- [X] Global config
+- [X] config.json -> global config
+- [ ] API key genertion endpoint
+- [ ] API key verification in auth mw
+- [ ] API key storage & expiry
+- [ ] Redis credential acquisition
+- [ ] Cast and Batch endpoint handlers
+- [ ] Rate limiting per API key (2s)
+- [ ] Rate limiting per number (10s)
+- [ ] Do not message list (API & Site)
+- [ ] API key statistics
+- [ ] Number statistics
+- [ ] Total app statistics
