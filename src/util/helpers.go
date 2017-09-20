@@ -28,17 +28,17 @@ func LogToFile(m string) {
 			os.Create("log")
 			LogToFile(m)
 		} else {
-			fmt.Println("[logging] Failed to open log file")
+			Log("Failed to open log file")
 		}
 	} else {
 		defer f.Close()
 
 		if _, werr := f.WriteString("[" + now + "] " + m + "\n"); werr != nil {
-			fmt.Println("[logging] Failed to log: " + m)
-			fmt.Println("[logging] ERROR: " + werr.Error())
+			Log("Failed to log: " + m)
+			Log("ERROR: " + werr.Error())
 			return
 		}
-		fmt.Printf("[logging] " + m + "\n")
+		Log("[logging] " + m + "\n")
 		f.Sync()
 		return
 	}
