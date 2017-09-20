@@ -15,4 +15,6 @@ const (
 	ErrInternalServerError = "A problem has occured within sms.party, please try again momentarily"
 	// ErrBadRequest error for invalid request to API
 	ErrBadRequest = "Invalid request format, check your formatting"
+	// ErrRedisConnection
+	ErrRedisConnection = "Redis server could not be contacted. Service shutting down."
 )
