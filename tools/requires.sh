@@ -1,4 +1,4 @@
-echo "[cSMS] Checking your system for dev dependencies..."
+echo "[sms.p] Checking your system for dev dependencies..."
 
 gostring=$(which go)
 if [[ $gostring == *"/"* ]];
@@ -18,4 +18,4 @@ else
   echo "- \"docker\" command not found in your system path, please install docker!"
 fi
 
-echo "[cSMS] Done!"
+echo "[sms.p] Done!"
