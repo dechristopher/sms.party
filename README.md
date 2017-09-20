@@ -12,4 +12,14 @@ Build with *tools/docker-build.sh*, then run with:
 
 Run and build all at once with our lifecycle scripts *tools/sms-up.sh* and *tools/sms-down.sh*
 
+***
+
+To simply build binaries, run *tools/build-(darwin/linux).sh* and start like so:
+
+```
+./build/main-(darwin/linux) <port>
+
+EXAMPLE: ./build/main-darwin 8080
+```
+
 http://sms.party
