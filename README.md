@@ -39,7 +39,7 @@ http://sms.party
 - [X] Error & Info strings
 - [X] Global config
 - [X] config.json -> global config
-- [ ] API key genertion endpoint
+- [X] API key genertion endpoint
 - [ ] API key verification in auth mw
 - [ ] API key storage & expiry
 - [ ] Redis credential acquisition
