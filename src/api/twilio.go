@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+
 	u "github.com/dechristopher/sms.party/src/util"
 )
 
@@ -12,15 +14,17 @@ type Credentials struct {
 }
 
 // GetCreds returns a set pf Twilio credentials from Redis
-func GetCreds() Credentials {
+func GetCreds() (Credentials, error) {
 	var creds Credentials
 
 	// Snag creds from redis here...
-	blob := u.GetCredsAsJSON()
+	blob, err := u.GetCredsAsJSON()
+
+	fmt.Println(blob)
 
 	creds.AccountSID = ""
 	creds.AuthToken = ""
 	creds.FromNumber = ""
 
-	return creds
+	return creds, err
 }
