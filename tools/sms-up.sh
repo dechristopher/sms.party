@@ -6,6 +6,7 @@ cd "${0%/*}"
 
 # Removes old containers (if any)
 docker rm -f csms/sms-p
+docker rm -f sms-p
 
 # Build docker container
 ./docker-build.sh
@@ -15,6 +16,6 @@ cd ..
 
 # Run docker container with args[1] being port
 # EXAMPLE: ./sms-up.sh 3000
-docker run -d --name sms-p -h sms-p -e PORT=$1 -p $1:$1 csms/sms-p
+docker run -d --name sms-p -h sms-p -e PORT=$1 --network=sms-party -p $1:$1 csms/sms-p
 
 echo "[sms.p] Done!"
