@@ -1,48 +1,19 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 
 	d "github.com/dechristopher/sms.party/src/data"
 	u "github.com/dechristopher/sms.party/src/util"
 	"github.com/sfreiberg/gotwilio"
 )
 
-// UnimplementedHandler just Okays everything because it's just there for the ride
-func UnimplementedHandler(w http.ResponseWriter, r *http.Request) {
-	/*
-		200 OK if 1=1
-	*/
-	u.Okay(w)
-}
-
-// HostHandler returns container hostname
-func HostHandler(w http.ResponseWriter, r *http.Request) {
-	/*
-		200 OK with hostname in response body
-		500 ISE if hostname cannot be resolved
-	*/
-	var name string
-	if name, hnerr := os.Hostname(); hnerr != nil {
-		fmt.Printf("Hostname Oopsie: %v %v\n", hnerr, name)
-		u.InternalServerError(w)
-		return
-	}
-	fmt.Fprintf(w, "%v", name)
-}
-
-// IndexHandler serves homepage
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	u.Templates.ExecuteTemplate(w, "index.html", nil)
-}
-
 // SendHandler handles basic single SMS sending
 func SendHandler(w http.ResponseWriter, r *http.Request) {
 	/*
 		200 OK if spooled properly
-		Otherwise something went wrong
+		400 BR if request body formatted improperly
+		500 ISE if something goes wrong
 	*/
 	// Just for logging yo
 	key := d.APIKey(r.Header.Get("apikey"))
@@ -65,6 +36,9 @@ func SendHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Log it
 	u.LogToRedis(r.RemoteAddr+" - "+string(key), r.RequestURI, number, message)
+
+	// TODO
+	// Update stats for API key and number
 
 	// Okay it
 	u.Okay(w)
