@@ -12,14 +12,22 @@ import (
 
 // UnimplementedHandler just Okays everything because it's just there for the ride
 func UnimplementedHandler(w http.ResponseWriter, r *http.Request) {
+	/*
+		200 OK if 1=1
+	*/
 	u.Okay(w)
 }
 
 // HostHandler returns container hostname
 func HostHandler(w http.ResponseWriter, r *http.Request) {
+	/*
+		200 OK with hostname in response body
+		500 ISE if hostname cannot be resolved
+	*/
 	var name string
 	if name, hnerr := os.Hostname(); hnerr != nil {
 		fmt.Printf("Hostname Oopsie: %v %v\n", hnerr, name)
+		u.InternalServerError(w)
 		return
 	}
 	fmt.Fprintf(w, "%v", name)
