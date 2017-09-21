@@ -16,5 +16,5 @@ const (
 	// ErrBadRequest error for invalid request to API
 	ErrBadRequest = "Invalid request format, check your formatting"
 	// ErrRedisConnection
-	ErrRedisConnection = "Redis server could not be contacted. Service shutting down."
+	ErrRedisConnection = "Redis server could not be contacted, service shutting down."
 )
