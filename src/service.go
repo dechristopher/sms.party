@@ -35,16 +35,16 @@ func main() {
 	// Instantiate new bone mux
 	mux := bone.New()
 
-	/*--- START API ENDPOINTS ---*/
+	/*--- START SMS ENDPOINTS ---*/
+	// POST /sms/send sends a single SMS message to a single number
+	mux.Post(u.Conf.Prefix+"/sms/send", http.HandlerFunc(a.SendHandler))
 	// POST /sms/batch sends a group of messages all sent to the API at once to conserve bandwidth
 	mux.Post(u.Conf.Prefix+"/sms/batch", http.HandlerFunc(a.UnimplementedHandler))
 	// POST /sms/cast sends a single SMS message to multiple numbers
 	mux.Post(u.Conf.Prefix+"/sms/cast", http.HandlerFunc(a.UnimplementedHandler))
-	// POST /sms/send sends a single SMS message to a single number
-	mux.Post(u.Conf.Prefix+"/sms/send", http.HandlerFunc(a.SendHandler))
 	// GET /sms returns information about total app sms statistics
 	mux.Get(u.Conf.Prefix+"/sms", http.HandlerFunc(a.UnimplementedHandler))
-	/*--- END API ENDPOINTS ---*/
+	/*--- END SMS ENDPOINTS ---*/
 
 	/*--- START HELPER ENDPOINTS ---*/
 	// GET /key gets information and stats about a given API key
