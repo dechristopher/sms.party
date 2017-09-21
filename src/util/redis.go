@@ -7,29 +7,33 @@ import (
 )
 
 // GetCredsAsJSON gets random Twilio credentials as a JSON blob
-func GetCredsAsJSON() string {
+func GetCredsAsJSON() (string, error) {
 	fmt.Println(s.LogPrefix + "GOT")
-	return "{}"
+	return "{}", nil
 }
 
 // IsNumberOnDNMList checks if a number is on the do not message list
-func IsNumberOnDNMList(number string) bool {
+func IsNumberOnDNMList(number string) (bool, error) {
 	fmt.Println(s.LogPrefix + "YES")
-	return true
+	return true, nil
 }
 
 // AddNumberToDNMList adds a number to the do not message list
-func AddNumberToDNMList(number string) {
+func AddNumberToDNMList(number string) error {
 	fmt.Println(s.LogPrefix + "OK")
+
+	return nil
 }
 
-// AddAPIKeyToDatastore adds an API key to the datastore for the desired number of hours
-func AddAPIKeyToDatastore(hours int) {
-	fmt.Println(s.LogPrefix + "OK")
+// AddAPIKeyBlobToDatastore adds an API key to the datastore for the desired number of hours
+func AddAPIKeyBlobToDatastore(blob string) error {
+	fmt.Println(s.LogPrefix + blob)
+
+	return nil
 }
 
 // IsAPIKeyValid checks if an API key is valid and not expired
-func IsAPIKeyValid(apikey string) bool {
+func IsAPIKeyValid(apikey string) (bool, error) {
 	fmt.Println(s.LogPrefix + "YES")
-	return true
+	return true, nil
 }
