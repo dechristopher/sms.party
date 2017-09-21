@@ -5,7 +5,7 @@ echo "[sms.p] Running devup"
 cd "${0%/*}"
 
 # Removes old containers (if any)
-docker rm -f sms-p
+docker rm -f csms/sms-p
 
 # Build docker container
 ./docker-build.sh

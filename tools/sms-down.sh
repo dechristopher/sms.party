@@ -5,6 +5,6 @@ echo "[sms.p] Running devdown"
 docker kill -f sms-p
 
 # Remove container from memory (keeps image)
-docker rm -f sms-p
+docker rm -f csms/sms-p
 
 echo "[sms.p] Done!"
