@@ -70,7 +70,7 @@ func ReadConfig() Configuration {
 	})
 
 	if rperr := R.Ping().Err(); rperr != nil {
-		LogErr(s.ErrRedisConnection)
+		LogErr(s.ErrRedisConnection + " [" + c.RedisConf.Address + "]")
 		RedisConnected = false
 	} else {
 		RedisConnected = true
