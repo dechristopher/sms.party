@@ -23,7 +23,12 @@ func SendHandler(w http.ResponseWriter, r *http.Request) {
 	message := r.FormValue("message")
 
 	// Grab some fancy new creds
-	creds := GetCreds()
+	creds, err := GetCreds()
+
+	if err != nil {
+		u.InternalServerError(w)
+		return
+	}
 
 	// Make a new twilio client using new creds every time
 	var twilio = gotwilio.NewTwilioClient(
