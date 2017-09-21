@@ -3,6 +3,23 @@ package data
 // APIKey is the key used to authenticate requests
 type APIKey string
 
+// KeyGenInfo defines the structure for the information required to generate an API key
+type KeyGenInfo struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	AppName string `json:"appname"`
+	Expires string `json:"expires"`
+}
+
+// KeyGenBlob defines the structure for the information stored in redis including api key
+type KeyGenBlob struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	AppName string `json:"appname"`
+	Expires string `json:"expires"`
+	APIKey  APIKey `json:"apikey"`
+}
+
 // SMS is the basic struct for messages
 type SMS struct {
 	Message string `json:"message"`
